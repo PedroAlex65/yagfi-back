@@ -1,13 +1,14 @@
 <!-- TOC -->
 * [Introduction](#introduction)
-  * [Why yet another good-first-issue project?](#why-yet-another-good-first-issue-project)
-  * [Need fix](#need-fix)
+* [Why yet another good-first-issue project?](#why-yet-another-good-first-issue-project)
+* [Need fix](#need-fix)
+* [What's next](#whats-next)
 <!-- TOC -->
 
 # Introduction
 YAGFI - yet another good first issue
 
-## Why yet another good-first-issue project?
+# Why yet another good-first-issue project?
 First of all, when I searched for projects to contribute, I met one thing. 
 Existing projects does not support all variety of labels:
 - good-first-issue
@@ -27,8 +28,11 @@ To compare with, look for other similar projects:
 - https://forgoodfirstissue.github.com/
 - https://up-for-grabs.net/
 
-## Need fix
+# Need fix
 - supply each new query as task to task executor
 - add insert on conflict do nothing
 - add view and supply result to front from it. While one table is filling, other supply one hour older results
-- remove all issues with label stale (idk how since github query does not support multiple label filters)
+- remove all issues with label stale by filtering the response since it contains labels
+
+# What's next
+- Android app with notifications about new issues by favorite filter preset
