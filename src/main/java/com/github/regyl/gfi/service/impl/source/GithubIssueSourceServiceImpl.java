@@ -42,11 +42,12 @@ public class GithubIssueSourceServiceImpl implements IssueSourceService {
                                     url
                                     state
                                     updatedAt
-                                    bodyText
                                     repository {
+                                        id
                                         nameWithOwner
                                         url
                                         description
+                                        stargazerCount
                                         primaryLanguage {
                                             id
                                             name

@@ -6,16 +6,3 @@ first-timers-only: 2.7k
 
 GraphQL due to:
 - simple cursor pagination
-
-labels:
-good-first-issue
-beginner-friendly
-good first issue
-beginner
-beginner friendly
-contribution welcome
-contribution-starter
-easy
-Easy Win
-easy-fix
-easy-pick

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -36,11 +35,12 @@ public class IssueEntity extends AbstractEntity {
     @NotEmpty
     private String url;
 
-    private String text;
-
+    @NotNull
     private OffsetDateTime updatedAt;
+    @NotNull
+    private OffsetDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private RepositoryEntity repository;
 
 }

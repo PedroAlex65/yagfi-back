@@ -3,6 +3,9 @@ spring:
     host-name: localhost
     github:
       token: ${GithubBearer}
+    async:
+      max-pool-size: 100
+      core-pool-size: 20
   application:
       name: good-first-issue-back
   datasource:

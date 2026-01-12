@@ -29,10 +29,13 @@ public class RepositoryEntity extends AbstractEntity {
     @NotEmpty
     private String title;
 
+    @NotEmpty
     private String url;
 
+    @NotNull
     private Integer stars;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private String language;

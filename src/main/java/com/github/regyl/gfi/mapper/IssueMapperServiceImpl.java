@@ -2,24 +2,25 @@ package com.github.regyl.gfi.mapper;
 
 import com.github.regyl.gfi.dto.github.GithubIssueDto;
 import com.github.regyl.gfi.entity.IssueEntity;
+import com.github.regyl.gfi.entity.RepositoryEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 @Component
 @RequiredArgsConstructor
-public class IssueMapperServiceImpl implements Function<GithubIssueDto, IssueEntity> {
+public class IssueMapperServiceImpl implements BiFunction<Map<String, RepositoryEntity>, GithubIssueDto, IssueEntity> {
 
     @Override
-    public IssueEntity apply(GithubIssueDto dto) {
+    public IssueEntity apply(Map<String, RepositoryEntity> repos, GithubIssueDto dto) {
         return IssueEntity.builder()
                 .sourceId(dto.getId())
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .updatedAt(dto.getUpdatedAt())
-                .repository(null) //FIXME
-                .text(dto.getBodyText())
+                .repository(repos.get(dto.getRepository().getId()))
                 .build();
     }
 }
