@@ -30,11 +30,46 @@
         FROM gfi.e_issue ei
         INNER JOIN gfi.e_repository er ON ei.repository_id = er.id
         <where>
-            <if test="filter != null and filter.languages != null and filter.languages.size() > 0">
-                er.language IN
-                <foreach collection="filter.languages" item="language" open="(" separator="," close=")">
-                    #{language}
-                </foreach>
+            <if test="filter != null and filter.languages != null and filter.languages.values != null and filter.languages.values.size() > 0">
+                <choose>
+                    <when test="filter.languages.operator != null and filter.languages.operator.name() == 'IN'">
+                        er.language IN
+                        <foreach collection="filter.languages.values" item="language" open="(" separator="," close=")">
+                            #{language}
+                        </foreach>
+                    </when>
+                    <when test="filter.languages.operator != null and filter.languages.operator.name() == 'NOT_IN'">
+                        er.language NOT IN
+                        <foreach collection="filter.languages.values" item="language" open="(" separator="," close=")">
+                            #{language}
+                        </foreach>
+                    </when>
+                </choose>
+            </if>
+            <if test="filter != null and filter.stars != null and filter.stars.value != null">
+                <if test="filter != null and filter.languages != null and filter.languages.values != null and filter.languages.values.size() > 0">
+                    AND
+                </if>
+                <choose>
+                    <when test="filter.stars.operator != null and filter.stars.operator.name() == 'GREATER'">
+                        er.stars &gt; #{filter.stars.value}
+                    </when>
+                    <when test="filter.stars.operator != null and filter.stars.operator.name() == 'GREATER_OR_EQUAL'">
+                        er.stars &gt;= #{filter.stars.value}
+                    </when>
+                    <when test="filter.stars.operator != null and filter.stars.operator.name() == 'LESS'">
+                        er.stars &lt; #{filter.stars.value}
+                    </when>
+                    <when test="filter.stars.operator != null and filter.stars.operator.name() == 'LESS_OR_EQUAL'">
+                        er.stars &lt;= #{filter.stars.value}
+                    </when>
+                    <when test="filter.stars.operator != null and filter.stars.operator.name() == 'EQUALS'">
+                        er.stars = #{filter.stars.value}
+                    </when>
+                    <when test="filter.stars.operator != null and filter.stars.operator.name() == 'NOT_EQUALS'">
+                        er.stars != #{filter.stars.value}
+                    </when>
+                </choose>
             </if>
         </where>
         <if test="orders != null and orders.size() > 0">

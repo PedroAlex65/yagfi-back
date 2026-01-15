@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilterRequestDto {
+public class StarsFilterDto {
 
-    private LanguageFilterDto languages;
-    private StarsFilterDto stars;
+    private Integer value;
+    private FilterOperator operator;
 }

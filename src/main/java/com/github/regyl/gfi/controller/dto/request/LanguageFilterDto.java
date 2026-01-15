@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilterRequestDto {
+public class LanguageFilterDto {
 
-    private LanguageFilterDto languages;
-    private StarsFilterDto stars;
+    private List<String> values;
+    private FilterOperator operator;
 }
