@@ -7,7 +7,6 @@ import com.github.regyl.gfi.service.other.LogService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -20,7 +19,6 @@ public class LogServiceImpl implements LogService {
     private final LogRepository logRepository;
     private final Function<HttpRequestModel, LogEntity> mapper;
 
-    @Async
     @Override
     public void logRequest(HttpServletRequest request, String requestBody) {
         try {
