@@ -21,7 +21,6 @@ services:
       --server
       --server-host 0.0.0.0
       --server-port 9090
-      --max-old-space-size 2048
   cdxgen-1:
     image: ghcr.io/cyclonedx/cdxgen:v11.11.0
     container_name: cdxgen-1
@@ -35,7 +34,6 @@ services:
       --server
       --server-host 0.0.0.0
       --server-port 9091
-      --max-old-space-size 2048
   cdxgen-2:
     image: ghcr.io/cyclonedx/cdxgen:v11.11.0
     container_name: cdxgen-2
@@ -49,7 +47,6 @@ services:
       --server
       --server-host 0.0.0.0
       --server-port 9092
-      --max-old-space-size 2048
   cdxgen-3:
     image: ghcr.io/cyclonedx/cdxgen:v11.11.0
     container_name: cdxgen-3
@@ -63,7 +60,6 @@ services:
       --server
       --server-host 0.0.0.0
       --server-port 9093
-      --max-old-space-size 2048
   cdxgen-4:
     image: ghcr.io/cyclonedx/cdxgen:v11.11.0
     container_name: cdxgen-4
@@ -77,4 +73,3 @@ services:
       --server
       --server-host 0.0.0.0
       --server-port 9094
-      --max-old-space-size 2048
