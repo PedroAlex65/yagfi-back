@@ -17,6 +17,7 @@
         <!--core-->
         <spring.version>4.0.1</spring.version>
         <postgresql.version>42.7.7</postgresql.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
 
         <!--libs-->
         <user-agent-parser.version>1.6.1</user-agent-parser.version>
@@ -24,6 +25,7 @@
         <jsr310.version>2.21.0</jsr310.version>
         <purl.version>1.5.0</purl.version>
         <lingua.version>1.2.2</lingua.version>
+        <guava.version>33.5.0-jre</guava.version>
 
         <!--tests-->
         <assertj.version>3.27.7</assertj.version>
@@ -37,6 +39,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -85,6 +99,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
@@ -95,14 +113,14 @@
             <artifactId>flyway-database-postgresql</artifactId>
             <version>${flyway.version}</version>
         </dependency>
+
+        <!--libs-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
-
-        <!--libs-->
         <dependency>
             <groupId>com.github.ua-parser</groupId>
             <artifactId>uap-java</artifactId>
@@ -138,7 +156,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>33.5.0-jre</version>
+            <version>${guava.version}</version>
             <scope>compile</scope>
         </dependency>
 
