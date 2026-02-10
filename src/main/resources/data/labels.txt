@@ -8,6 +8,7 @@ difficulty:easy
 doc
 documentation
 component=docs
+Documentation
 type: documentation
 E-easy
 E-less-complex
@@ -43,8 +44,10 @@ Portfolio Addition
 scope:small
 starter-task
 Status: Up for grabs
+status: ideal-for-contribution
+Suggested
 up for grabs
 up-for-grabs
-status: ideal-for-contribution
 help wanted
 help-wanted
+Help Wanted
