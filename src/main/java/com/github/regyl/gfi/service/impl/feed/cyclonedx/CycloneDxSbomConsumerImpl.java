@@ -21,6 +21,22 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+/**
+ * Consumer that processes SBOM responses from CycloneDX services.
+ * 
+ * <p>Extracts dependencies from SBOM components, resolves PURLs to GitHub repository URLs,
+ * and saves dependency relationships to the database.
+ * 
+ * <p>Only processes components that:
+ * <ul>
+ *   <li>Have valid PURLs</li>
+ *   <li>Have a matching PurlToHomepageService implementation</li>
+ *   <li>Can be resolved to a GitHub repository URL</li>
+ * </ul>
+ * 
+ * <p>Exceptions are caught and logged to prevent breaking the async CompletableFuture chain.
+ * This ensures one failed SBOM doesn't stop the entire feed generation process.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -30,6 +46,12 @@ public class CycloneDxSbomConsumerImpl implements Consumer<SbomModel> {
     private final Collection<PurlToHomepageService> homepageServices;
     private final BiFunction<SbomModel, String, UserFeedDependencyEntity> dependencyMapper;
 
+    /**
+     * Processes SBOM model and extracts dependencies. Wraps execution in try-catch
+     * to prevent exceptions from breaking the async CompletableFuture chain.
+     * 
+     * @param model SBOM model containing response and request context
+     */
     @Override
     public void accept(SbomModel model) {
         try {

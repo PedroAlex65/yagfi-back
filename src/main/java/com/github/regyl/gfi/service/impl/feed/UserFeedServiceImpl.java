@@ -16,6 +16,11 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Implementation of user feed service.
+ * Provides read-only access to feed data and handles feed request creation.
+ * Feed generation itself is performed asynchronously by UserFeedGeneratorServiceImpl.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor

@@ -11,6 +11,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Downloads package.json from npm registry for a given npm package PURL.
+ * 
+ * <p>Builds registry URL as: base/{scope}/{package}/{version}.
+ * For scoped packages (@scope/package), namespace is included in the path.
+ * For unscoped packages, namespace is null and is filtered out.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -25,6 +32,13 @@ public class NpmPurlToBuildFileServiceImpl implements PurlToBuildFileService {
         return purl.getType().equals("npm");
     }
 
+    /**
+     * Downloads package.json from npm registry.
+     * Returns null if package doesn't exist or download fails.
+     * 
+     * @param purl npm package PURL
+     * @return package.json content as string or null
+     */
     @Override
     public String apply(PackageURL purl) {
         String groupId = purl.getNamespace();

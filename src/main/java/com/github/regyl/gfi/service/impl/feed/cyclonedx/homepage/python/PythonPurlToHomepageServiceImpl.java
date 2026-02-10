@@ -11,8 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * Service for fetching Python package homepage from pypi.org.
- * Example: pkg:pypi/pytz@2025.2
+ * Resolves Python package PURLs to GitHub repository URLs via PyPI API.
+ * 
+ * <p>Extracts homepage with priority: project_urls.Source (if GitHub) ->
+ * project_urls.Homepage (if GitHub) -> home_page. We prefer GitHub URLs
+ * from project_urls over generic home_page to match dependencies to repositories.
+ * 
+ * <p>Example: pkg:pypi/pytz@2025.2
  */
 @Slf4j
 @Component
@@ -26,6 +31,13 @@ public class PythonPurlToHomepageServiceImpl implements PurlToHomepageService {
         return purl.getType().equals("pypi");
     }
 
+    /**
+     * Resolves Python package to GitHub repository URL via PyPI API.
+     * Returns null if package doesn't exist, has no homepage, or homepage is not a GitHub URL.
+     * 
+     * @param purl Python package PURL
+     * @return normalized GitHub repository URL or null
+     */
     @Override
     public String apply(PackageURL purl) {
         if (purl == null) {

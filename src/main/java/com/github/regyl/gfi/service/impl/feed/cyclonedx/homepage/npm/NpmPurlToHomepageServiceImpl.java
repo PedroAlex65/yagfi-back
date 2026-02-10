@@ -13,6 +13,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+/**
+ * Resolves npm package PURLs to GitHub repository URLs.
+ * 
+ * <p>Downloads package.json from npm registry and extracts repository URL.
+ * Priority: repository.url (object) > repository (string with "git") > homepage.
+ * package.json can have repository as object {url: "...", type: "git"} or as string.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -26,6 +33,13 @@ public class NpmPurlToHomepageServiceImpl implements PurlToHomepageService {
         return purl.getType().equals("npm");
     }
 
+    /**
+     * Resolves npm package to GitHub repository URL by downloading and parsing package.json.
+     * Returns null if package.json cannot be downloaded or doesn't contain repository information.
+     * 
+     * @param purl npm package PURL
+     * @return normalized GitHub repository URL or null
+     */
     @Override
     public String apply(PackageURL purl) {
         if (purl == null) {

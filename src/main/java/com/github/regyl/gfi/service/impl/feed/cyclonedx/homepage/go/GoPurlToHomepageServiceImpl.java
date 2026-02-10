@@ -5,8 +5,13 @@ import com.github.regyl.gfi.service.feed.PurlToHomepageService;
 import org.springframework.stereotype.Component;
 
 /**
- * Service for fetching github packages.
- * Example: pkg:github/actions/checkout@v4
+ * Resolves Go module PURLs to GitHub repository URLs.
+ * 
+ * <p>Only handles Go packages hosted on GitHub (namespace starts with "github.com").
+ * Other Go modules (e.g., from gitlab.com) are not processed as we only track
+ * GitHub repositories for issue matching.
+ * 
+ * <p>Example: pkg:golang/github.com/actions/checkout@v4
  */
 @Component
 public class GoPurlToHomepageServiceImpl implements PurlToHomepageService {
@@ -17,6 +22,13 @@ public class GoPurlToHomepageServiceImpl implements PurlToHomepageService {
                 && purl.getNamespace().startsWith("github.com");
     }
 
+    /**
+     * Constructs GitHub repository URL from Go module PURL.
+     * Format: https://{namespace}/{name}
+     * 
+     * @param purl Go module PURL with GitHub namespace
+     * @return GitHub repository URL
+     */
     @Override
     public String apply(PackageURL purl) {
         return String.format("https://%s/%s", purl.getNamespace(), purl.getName());

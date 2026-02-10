@@ -10,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * Service for fetching cargo package homepage from crates.io.
- * Example: pkg:cargo/brotli@6.0.0
+ * Resolves Cargo package PURLs to homepage URLs via crates.io API.
+ * crates.io provides homepage directly in the API response.
+ * 
+ * <p>Example: pkg:cargo/brotli@6.0.0
  */
 @Slf4j
 @Component
@@ -25,6 +27,13 @@ public class CargoPurlToHomepageServiceImpl implements PurlToHomepageService {
         return purl != null && purl.getType().equals("cargo");
     }
 
+    /**
+     * Resolves Cargo crate to homepage URL via crates.io API.
+     * Returns null if crate doesn't exist or has no homepage.
+     * 
+     * @param purl Cargo package PURL
+     * @return homepage URL or null
+     */
     @Override
     public String apply(PackageURL purl) {
         if (purl == null) {

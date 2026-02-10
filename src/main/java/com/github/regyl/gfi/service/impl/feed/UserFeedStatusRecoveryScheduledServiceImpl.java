@@ -8,6 +8,19 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * Recovery service that resets feed requests stuck in PROCESSING status on application startup.
+ * 
+ * <p>This handles cases where:
+ * <ul>
+ *   <li>Application crashed during feed generation</li>
+ *   <li>Application was gracefully shut down while processing</li>
+ *   <li>Database connection was lost mid-processing</li>
+ * </ul>
+ * 
+ * <p>Without this, requests would remain in PROCESSING status indefinitely,
+ * preventing them from being retried.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor

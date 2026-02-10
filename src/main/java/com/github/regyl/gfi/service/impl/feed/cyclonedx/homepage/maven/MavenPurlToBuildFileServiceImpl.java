@@ -8,6 +8,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
+/**
+ * Downloads POM from Maven Central for a given Maven artifact PURL.
+ * 
+ * <p>Builds Maven Central URL by converting groupId dots to path separators.
+ * Maven Central uses directory structure: groupId (dots -> slashes) / artifactId / version / artifactId-version.pom
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -22,6 +28,13 @@ public class MavenPurlToBuildFileServiceImpl implements PurlToBuildFileService {
         return purl.getType().equals("maven");
     }
 
+    /**
+     * Downloads POM from Maven Central.
+     * Returns null if artifact doesn't exist (404) or download fails.
+     * 
+     * @param purl Maven artifact PURL
+     * @return POM content as string or null
+     */
     @Override
     public String apply(PackageURL purl) {
         String groupId = purl.getNamespace();

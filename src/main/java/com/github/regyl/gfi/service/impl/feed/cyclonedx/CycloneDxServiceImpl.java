@@ -22,6 +22,17 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Implementation of CycloneDX service for generating SBOMs from repository URLs.
+ * 
+ * <p>Manages a pool of CycloneDX (cdxgen) service instances. Each instance is single-threaded,
+ * so health checks are performed to determine availability. Timeout during health check
+ * indicates the service is busy processing another request.
+ * 
+ * <p>Uses separate HTTP clients for health checks and SBOM generation with different
+ * timeout configurations. Health checks need to be fast, while SBOM generation can take
+ * significant time for large repositories.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor

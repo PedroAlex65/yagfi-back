@@ -24,6 +24,24 @@ import java.util.Queue;
 import java.util.concurrent.locks.LockSupport;
 import java.util.function.BiConsumer;
 
+/**
+ * Scheduled service that processes user feed generation requests.
+ * 
+ * <p>Process flow:
+ * <ol>
+ *   <li>Fetches user's GitHub repositories via GraphQL</li>
+ *   <li>Submits async SBOM generation requests to CycloneDX services in batches</li>
+ *   <li>Waits between batches to avoid overwhelming CycloneDX (single-threaded services)</li>
+ *   <li>Marks request as PROCESSED once all repositories are submitted (not when processing completes)</li>
+ *   <li>Sends email notification to user</li>
+ * </ol>
+ * 
+ * <p>Critical: Status is set to PROCESSED before async SBOM processing completes.
+ * Actual dependency extraction happens asynchronously via resultConsumer.
+ * This is intentional to avoid blocking the scheduler and allow parallel processing.
+ * 
+ * <p>Only processes one feed at a time to avoid exhausting Spring's scheduler thread pool.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -36,6 +54,11 @@ public class UserFeedGeneratorServiceImpl implements ScheduledService {
     private final BiConsumer<SbomModel, Throwable> resultConsumer;
     private final EmailService emailService;
 
+    /**
+     * Scheduled method that processes waiting feed requests.
+     * Only starts processing if all CycloneDX services are free to avoid blocking the scheduler.
+     * Spring's scheduler has limited core pool size, so we must check availability before starting.
+     */
     @Override
     @Scheduled(fixedRate = 60_000, initialDelay = 1_000)
     public void schedule() {

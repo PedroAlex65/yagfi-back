@@ -19,6 +19,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.util.Collection;
 
+/**
+ * Resolves Maven artifact PURLs to GitHub repository URLs.
+ * 
+ * <p>Downloads POM from Maven Central and extracts SCM URL from &lt;scm&gt;&lt;url&gt; element.
+ * XML parsing disables namespace awareness and validation to avoid issues with POMs
+ * that don't declare namespaces or have schema issues.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -31,6 +38,14 @@ public class MavenPurlToHomepageServiceImpl implements PurlToHomepageService {
         return purl.getType().equals("maven");
     }
 
+    /**
+     * Resolves Maven artifact to GitHub repository URL by downloading and parsing POM.
+     * Extracts SCM URL from &lt;scm&gt;&lt;url&gt; element.
+     * Returns null if POM cannot be downloaded or doesn't contain SCM information.
+     * 
+     * @param purl Maven artifact PURL
+     * @return normalized GitHub repository URL or null
+     */
     @Override
     public String apply(PackageURL purl) {
         if (purl == null) {
