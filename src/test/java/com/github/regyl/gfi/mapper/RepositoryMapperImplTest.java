@@ -24,16 +24,16 @@ class RepositoryMapperImplTest {
 
     @Test
     void shouldReturnNullWhenInputIsNull() {
-        //When
+        // When
         RepositoryEntity result = repositoryMapper.apply(null);
 
-        //Then
+        // Then
         assertThat(result).isNull();
     }
 
     @Test
     void shouldMapFullDtoToRepositoryEntity() {
-        //Given
+        // Given
         GithubRepositoryDto dto = new GithubRepositoryDto();
         dto.setId("1");
         dto.setNameWithOwner("Regyl/project");
@@ -44,10 +44,10 @@ class RepositoryMapperImplTest {
         OffsetDateTime now = OffsetDateTime.now();
         when(dateTimeSupplier.get()).thenReturn(now);
 
-        //When
+        // When
         RepositoryEntity resultado = repositoryMapper.apply(dto);
 
-        //Then
+        // Then
         assertThat(resultado).isNotNull();
         assertThat(resultado.getSourceId()).isEqualTo("1");
         assertThat(resultado.getTitle()).isEqualTo("Regyl/project");
