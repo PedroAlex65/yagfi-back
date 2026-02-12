@@ -1,49 +1,60 @@
 package com.github.regyl.gfi.mapper;
 
+import com.github.regyl.gfi.annotation.DefaultUnitTest;
 import com.github.regyl.gfi.controller.dto.github.issue.GithubRepositoryDto;
 import com.github.regyl.gfi.entity.RepositoryEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
 import java.util.function.Supplier;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
- class RepositoryMapperImplTest {
+@DefaultUnitTest
+class RepositoryMapperImplTest {
+
     @InjectMocks
     private RepositoryMapperImpl repositoryMapper;
+
     @Mock
     private Supplier<OffsetDateTime> dateTimeSupplier;
+
     @Test
-     void resultNullTest() {
+    void shouldReturnNullWhenInputIsNull() {
+        //When
         RepositoryEntity result = repositoryMapper.apply(null);
-        assertNull(result, "Mapping a null input should return null");
+
+        //Then
+        assertThat(result).isNull();
     }
+
+
     @Test
-     void shouldMapFullDtoToRepositoryEntity() {
+    void shouldMapFullDtoToRepositoryEntity() {
+        //Given
         GithubRepositoryDto dto = new GithubRepositoryDto();
         dto.setId("1");
         dto.setNameWithOwner("Regyl/project");
         dto.setUrl("https://github.com/Regyl/gfi");
         dto.setStargazerCount(100);
         dto.setDescription("Um projeto icrivel");
+
         OffsetDateTime now = OffsetDateTime.now();
         when(dateTimeSupplier.get()).thenReturn(now);
+
+        //When
         RepositoryEntity resultado = repositoryMapper.apply(dto);
-        assertNotNull(resultado, "The result must not be null.");
-        assertEquals("1", resultado.getSourceId());
-        assertEquals("Regyl/project", resultado.getTitle());
-        assertEquals("https://github.com/Regyl/gfi", resultado.getUrl());
-        assertEquals(100, resultado.getStars());
-        assertEquals("Um projeto icrivel", resultado.getDescription());
-        assertEquals(now, resultado.getCreated());
+
+        //Then
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getSourceId()).isEqualTo("1");
+        assertThat(resultado.getTitle()).isEqualTo("Regyl/project");
+        assertThat(resultado.getUrl()).isEqualTo("https://github.com/Regyl/gfi");
+        assertThat(resultado.getStars()).isEqualTo(100);
+        assertThat(resultado.getDescription()).isEqualTo("Um projeto incrivel");
+        assertThat(resultado.getCreated()).isEqualTo(now);
     }
 }
