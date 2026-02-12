@@ -31,7 +31,6 @@ class RepositoryMapperImplTest {
         assertThat(result).isNull();
     }
 
-
     @Test
     void shouldMapFullDtoToRepositoryEntity() {
         //Given
