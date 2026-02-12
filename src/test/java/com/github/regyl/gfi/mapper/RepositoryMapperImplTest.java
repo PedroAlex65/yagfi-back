@@ -56,4 +56,5 @@ class RepositoryMapperImplTest {
         assertThat(resultado.getDescription()).isEqualTo("A great repository description");
         assertThat(resultado.getCreated()).isEqualTo(now);
     }
+
 }
